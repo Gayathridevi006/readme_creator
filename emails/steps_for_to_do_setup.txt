@@ -1,0 +1,139 @@
+Perfect ✅
+We’ll make a **Google Apps Script** that:
+
+* Sends you a **morning email** with your to-do list at 7 AM.
+* Sends you a **night email** at 9 PM with a link to mark tasks done.
+* Saves your responses in a Google Sheet for tracking.
+
+
+ **Step-by-Step Setup**
+
+1️⃣ Create a Google Sheet
+
+1. Go to [Google Sheets](https://sheets.google.com).
+2. Name it **Daily Tracker**.
+3. Add columns:
+
+   ```
+   Date | 2 Hours Study | 1 Leetcode Problem | Workout / 10k Steps | No Sugar | Ice Face | Green Tea Twice
+   ```
+
+
+
+2️⃣ Open Script Editor
+
+1. In your Sheet, go to **Extensions → Apps Script**.
+2. Delete any existing code.
+
+
+
+3️⃣ Paste This Code
+
+```javascript
+function sendMorningEmail() {
+  var email = "YOUR_EMAIL@gmail.com";
+  var subject = "🌅 Morning To-Do List";
+  var body = 
+    "Good Morning!\n\nHere’s your to-do list for today:\n\n" +
+    "✅ 2 hours study\n" +
+    "✅ 1 Leetcode problem\n" +
+    "✅ Any sort of workout / 10k steps\n" +
+    "✅ No direct sugar, eat healthy\n" +
+    "✅ Ice your face\n" +
+    "✅ Green tea twice\n\n" +
+    "Have a productive day! 💪";
+  MailApp.sendEmail(email, subject, body);
+}
+
+function sendNightEmail() {
+  var email = "YOUR_EMAIL@gmail.com";
+  var formUrl = "PASTE_GOOGLE_FORM_LINK_HERE"; // Will create in step 4
+  var subject = "🌙 Daily Task Completion Check";
+  var body = 
+    "Good Evening!\n\nPlease update your task completion for today:\n" +
+    formUrl + "\n\n" +
+    "Let’s keep the streak alive! 🔥";
+  MailApp.sendEmail(email, subject, body);
+}
+```
+
+
+
+4️⃣ Create the Completion Form
+
+1. Go to [Google Forms](https://forms.google.com).
+2. Create a new form titled **Daily Task Check**.
+3. Add **6 Yes/No questions** for each habit:
+
+   * “Did you study for 2 hours?”
+   * “Did you solve 1 Leetcode problem?”
+   * “Did you workout / walk 10k steps?”
+   * “No direct sugar, ate healthy?”
+   * “Did you ice your face?”
+   * “Did you drink green tea twice?”
+4. Link responses to the same **Daily Tracker Sheet** (in Form settings).
+5. Copy the **form link** and paste it into the code (`formUrl`).
+
+
+
+1. In Apps Script, click **Triggers** (clock icon on left).
+I see the issue — your triggers are currently set to **“From spreadsheet - On open”**, which means the emails only send when you open the sheet.
+
+To make them send **automatically at fixed times** (7 AM and 9 PM), you need to change these to **time-driven triggers**.
+
+
+ **Change to Time-Driven Triggers**
+
+1. In the Apps Script editor, click the **clock icon** on the left sidebar (Triggers).
+
+2. Click **✏️ Edit** or **🗑 Delete** the existing triggers (those “From spreadsheet - On open” ones).
+
+3. Click **+ Add Trigger** (bottom-right).
+
+4. Set it like this for the **morning email**:
+
+   * Function: `sendMorningEmail`
+   * Event source: **Time-driven**
+   * Type of time-based trigger: **Day timer**
+   * Time of day: **7 AM to 8 AM**
+
+5. Click **Save**.
+
+6. Repeat for **night email**:
+
+   * Function: `sendNightEmail`
+   * Event source: **Time-driven**
+   * Type: **Day timer**
+   * Time: **9 PM to 10 PM**
+
+
+
+6️⃣ Authorize & Run Once
+
+* Click the play ▶️ button for each function once to authorize Gmail sending.
+
+
+
+What Next?
+Run Each Function Once Manually
+
+In the Apps Script editor, select sendMorningEmail from the dropdown and click ▶ Run.
+
+Do the same for sendNightEmail.
+
+This will prompt Google to ask for permissions to send emails — click Authorize and allow it.
+(Without this, the scheduled triggers won’t be able to send emails.)
+
+Test the Emails
+
+After authorizing, run each function once manually to make sure the email reaches your inbox.
+
+Ensure Gmail & Form Links Work
+
+For the night email, make sure the formUrl you added is correct and accessible.
+
+If you linked the Google Form to your Google Sheet, the responses should already be set to go into your Daily Tracker sheet.
+
+Leave It Running
+
+Once authorized, Apps Script will run automatically from Google’s servers — you don’t need your laptop on.
